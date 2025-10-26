@@ -4,13 +4,23 @@ function scrapeArxivMeta() {
     const authors = Array.from(authorElements).map(el => el.content).join('; ');
     let dateString = document.querySelector('meta[name="citation_online_date"]')?.content || "";
     dateString = dateString.replace(/\//g, '-');
+
+    // let subjectsArray = [];
+    // const subjectsCell = document.querySelector('td.tablecell.subjects');
+    // if (subjectsCell) {
+    //     const subjectsText = subjectsCell.textContent || "";
+    //     subjectsArray = subjectsText.split(';')
+    //                                 .map(s => s.trim())
+    //                                 .filter(s => s.length > 0);
+    // }
+    const primarySubject = document.querySelector('.primary-subject')?.textContent || "";
     
     const meta = {    
         title: document.querySelector('meta[name="citation_title"]')?.content || document.title,
         url: document.querySelector('link[rel="canonical"]')?.href || location.href,
         date: dateString,
         author: authors,
-        subject: document.querySelector('.primary-subject')?.textContent || "",
+        subject: primarySubject,
         abs: document.querySelector('meta[name="citation_abstract"]')?.content || ""
     };
 

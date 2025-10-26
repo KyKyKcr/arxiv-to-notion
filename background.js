@@ -53,6 +53,10 @@ async function handleSaveArxivToNotion(metadata, sendResponse) {
   try {
     const { apiKey, dataSourceId } = await getNotionConfigAndDataSourceId();
 
+    const subjectTags = (metadata.subjects && Array.isArray(metadata.subjects))
+      ? metadata.subjects.map(subjectName => ({ "name": subjectName })) 
+      : [];
+
     // Notion APIリクエストボディの構築 (arXiv用)
     const properties = {
       "Title": { // Title型プロパティ
@@ -66,15 +70,17 @@ async function handleSaveArxivToNotion(metadata, sendResponse) {
       },
       // Date型プロパティ (YYYY-MM-DD形式)
       "Date": metadata.date ? { "date": { "start": metadata.date } } : null,
-      "Subject": { // Rich Text型 or Select型 or Text型
-        //  "rich_text": [{ "type": "text", "text": { "content": metadata.subject || "" } }]
-        //  Select型の場合: 
+      "Subject": {
+        // "rich_text": [{ "type": "text", "text": { "content": metadata.subject || "" } }]
         // "select": { "name": metadata.subject || "" }
         "multi_select": [{ "name": metadata.subject || "" }]
       },
+      // "Subject": subjectTags.length > 0 ? { "multi_select": subjectTags } : null, // 複数Subject用。うまくいかない。
       "Abstract": { // Rich Text型プロパティを推奨
          "rich_text": [{ "type": "text", "text": { "content": metadata.abs || "" } }]
-      }
+      },
+      "Status": {"status": {"name": "未読"}},
+      "Interest": {"select": {"name": "-"}}
     };
      // nullのプロパティを除外
     const filteredProperties = Object.entries(properties)
