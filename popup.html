@@ -1,20 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Add to Notion</title>
+  <meta charset="UTF-8">
+  <title>arXiv Meta</title>
   <style>
-    body { font-family: sans-serif; width: 250px; margin: 10px; }
-    input, button { width: 100%; margin-top: 8px; padding: 5px; }
+    body { width: 350px; font-family: sans-serif; font-size: 14px; }
+    div { margin-bottom: 10px; }
+    strong { display: block; color: #333; }
+    p { margin: 4px 0; }
+    #error { color: red; }
   </style>
 </head>
 <body>
-  <h3>arXiv to Notion</h3>
-  <input id="token" placeholder="Notion token" type="password">
-  <input id="database" placeholder="Database ID">
-  <button id="save">Save Config</button>
-  <hr>
-  <button id="send">Add current paper</button>
+  <h3>arXiv Metadata</h3>
+  <div id="content">
+    <div>
+      <strong>Title:</strong>
+      <p id="title">Loading...</p>
+    </div>
+    <div>
+      <strong>Author(s):</strong>
+      <p id="author">Loading...</p>
+    </div>
+    <div>
+      <strong>Date:</strong>
+      <p id="date">Loading...</p>
+    </div>
+    <div>
+      <strong>Primary Subject:</strong>
+      <p id="subject">Loading...</p>
+    </div>
+    <div>
+      <strong>Abstract:</strong>
+      <p id="abstract" style="max-height: 150px; overflow-y: auto; border: 1px solid #ccc; padding: 5px;">Loading...</p>
+    </div>
+  </div>
+  <div id="error" style="display: none;">
+      Could not retrieve metadata from this page.
+  </div>
+
+  <button id="saveButton">現在のページをNotionに保存</button>
+  <div id="status"></div>
 
   <script src="popup.js"></script>
 </body>

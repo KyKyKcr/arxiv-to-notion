@@ -3,11 +3,8 @@
     "name": "arxiv-to-notion",
     "version": "0.1.0",
     "description": "Save arXiv papers to Notion with one click.",
-    "permissions": ["activeTab", "scripting", "storage"],
-    "host_permissions": ["https://arxiv.org/*", "https://api.notion.com/*"],
-    "background": {
-        "service_worker": "background.js"
-    },
+    "permissions": ["activeTab", "scripting","storage"],
+    "host_permissions": ["https://arxiv.org/abs/*","https://api.notion.com/"],
     "action": {
         "default_popup": "popup.html",
         "default_icon": {
@@ -16,10 +13,8 @@
             "128": "icons/icon128.png"
         }
     },
-    "content_scripts": [
-        {
-            "matches": ["https://arxiv.org/abs/*"],
-            "js": ["content.js"]
-        }
-    ]
+    "background": {
+        "service_worker": "background.js"
+    },
+    "options_page": "options.html"
 }
